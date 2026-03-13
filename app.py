@@ -1,8 +1,17 @@
 import streamlit as st
-import joblib
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
 import time
 
-model = joblib.load("model.pkl")
+# Load dataset
+data = pd.read_csv("dataset.csv")
+
+X = data[["Q1","Q2","Q3","Q4","Q5","Time"]]
+y = data["Intelligence"]
+
+# Train model
+model = DecisionTreeClassifier()
+model.fit(X,y)
 
 st.title("🧠 AI Intelligence Predictor")
 
@@ -29,5 +38,5 @@ if st.button("Predict Intelligence"):
 
     prediction = model.predict([[a1,a2,a3,a4,a5,time_taken]])
 
-    st.write("⏱ Time Taken:",time_taken,"seconds")
+    st.write("Time Taken:",time_taken,"seconds")
     st.success("Predicted Intelligence Level: "+prediction[0])
